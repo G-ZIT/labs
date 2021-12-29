@@ -6,7 +6,7 @@
   vars:
     region: us-east-1
     instance_type: t2.micro
-    ami: ami-0e472ba40eb589f49 # RedHat Linux 7.5
+    ami: ami-0e472ba40eb589f49
     hosts_file: /etc/ansible/hosts
     access_key: AKIAQRG2VTPA44ADQTH5
     secret_key: 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
@@ -16,8 +16,8 @@
      ec2_group:
        aws_access_key: "{{ access_key }}"
        aws_secret_key: "{{ secret_key }}"
-       name: "vniranjan"
-       description: "V Niranjan Security Group"
+       name: "shubh-sg"
+       description: "Shubham Security Group"
        region: "{{ region }}"
        rules:
         - proto: tcp
@@ -29,27 +29,27 @@
      ec2_key:
        aws_access_key: "{{ access_key }}"
        aws_secret_key: "{{ secret_key }}"
-       name: "vniranjan"
+       name: "shubh"
        region: "{{ region }}"
      register: ec2_key
    - name: Save private key (PEM file)
-     copy: content="{{ec2_key.key.private_key}}" dest=/tmp/vniranjan.pem mode=0600
+     copy: content="{{ec2_key.key.private_key}}" dest=/tmp/shubh.pem mode=0600
      when: ec2_key.changed
    - name: Create an ec2 instance
      ec2:
        aws_access_key: "{{ access_key }}"
        aws_secret_key: "{{ secret_key }}"
-       key_name: vniranjan
-       group: vniranjan # security group name
+       key_name: shubh
+       group: shubh-sg # security group name
        instance_type: "{{ instance_type}}"
        image: "{{ ami }}"
        wait: true
        region: "{{ region }}"
        count: 1 # default
        count_tag:
-         Name: Demo
+         Name: Shubh-demo
        instance_tags:
-         Name: Demo
+         Name: Shubh-demo
      register: ec2
    - name: Save IP to inventory file
      lineinfile:
