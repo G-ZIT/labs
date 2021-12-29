@@ -1,0 +1,6 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+  - name: Copying Confidential Job Agreement
+    copy: content="This is a Confidential Job Agreement" dest=/home/ansible/jobagreement.txt
